@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loadstring Generator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #121212; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: #1e1e1e; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; max-width: 500px; text-align: center; }
+        input { width: 90%; padding: 12px; margin-bottom: 1rem; border-radius: 6px; border: 1px solid #333; background: #252526; color: white; }
+        button { padding: 10px 20px; border: none; border-radius: 6px; background: #0078d4; color: white; cursor: pointer; font-weight: bold; }
+        button:hover { background: #005a9e; }
+        #resultContainer { margin-top: 1.5rem; display: none; }
+        textarea { width: 90%; height: 80px; background: #2d2d2d; color: #dcdcdc; border: 1px solid #444; border-radius: 6px; padding: 10px; resize: none; font-family: monospace; }
+        .copy-btn { background: #28a745; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Loadstring Generator</h2>
+    <p>Paste link (Raw GitHub):</p>
+    <input type="text" id="rawUrl" placeholder="https://raw.githubusercontent.com/...">
+    <br>
+    <button onclick="generateLoadstring()">Generate</button>
+
+    <div id="resultContainer">
+        <p>Twój loadstring:</p>
+        <textarea id="output" readonly></textarea>
+        <br>
+        <button class="copy-btn" onclick="copyToClipboard()">Copy to clipboard</button>
+    </div>
+</div>
+
+<script>
+    function generateLoadstring() {
+        const url = document.getElementById('rawUrl').value.trim();
+        const output = document.getElementById('output');
+        const container = document.getElementById('resultContainer');
+
+        if (url === "") {
+            alert("Paste link!");
+            return;
+        }
+
+        // Tworzenie formatu loadstring
+        const formatted = `loadstring(game:HttpGet("${url}", true))()`;
+        
+        output.value = formatted;
+        container.style.display = 'block';
+    }
+
+    function copyToClipboard() {
+        const output = document.getElementById('output');
+        output.select();
+        document.execCommand('copy');
+        alert("Skopiowano!");
+    }
+</script>
+
+</body>
+</html>
